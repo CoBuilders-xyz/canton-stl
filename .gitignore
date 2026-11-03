@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+
+# Daml build output (model/.daml, model-tests/.daml, …)
+.daml/
+
+# Canton / local runtime
+log/
+*.log
+
+# Benchmark output
+.reports/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Node / TypeScript
+npm-debug.log*
+yarn-error.log*
+coverage/
+*.tsbuildinfo
+dist/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~
+
+# Cursor local rules (keep out of the shared tree)
+.cursor/
+.cursorrules
+.cursorrules.json
+
+.cache/

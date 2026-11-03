@@ -1,0 +1,48 @@
+module IouTests where
+
+import Daml.Script
+import DA.Assert
+import Main
+
+testLifecycle : Script ()
+testLifecycle = script do
+  issuer <- allocateParty "Issuer"
+  owner <- allocateParty "Owner"
+  recipient <- allocateParty "Recipient"
+  cid <- submit issuer do createCmd (Iou issuer owner 10.0)
+  queryContractId recipient cid >>= (=== None)
+  next <- submit owner do exerciseCmd cid (Transfer recipient)
+  queryContractId issuer cid >>= (=== None)
+  queryContractId owner next >>= (=== None)
+  queryContractId recipient next >>= (=== Some (Iou issuer recipient 10.0))
+  submit issuer do exerciseCmd next Settle
+  queryContractId recipient next >>= (=== None)
+
+testInvalidAmounts : Script ()
+testInvalidAmounts = script do
+  issuer <- allocateParty "Issuer"
+  owner <- allocateParty "Owner"
+  submitMustFail issuer do createCmd (Iou issuer owner 0.0)
+  submitMustFail issuer do createCmd (Iou issuer owner (-1.0))
+  cid <- submit issuer do createCmd (Iou issuer owner 0.0000000001)
+  queryContractId issuer cid >>= (=== Some (Iou issuer owner 0.0000000001))
+
+testControllers : Script ()
+testControllers = script do
+  issuer <- allocateParty "Issuer"
+  owner <- allocateParty "Owner"
+  submitMustFail owner do createCmd (Iou issuer owner 10.0)
+  cid <- submit issuer do createCmd (Iou issuer owner 10.0)
+  submitMustFail issuer do exerciseCmd cid (Transfer issuer)
+  submitMustFail owner do exerciseCmd cid Settle
+  queryContractId issuer cid >>= (=== Some (Iou issuer owner 10.0))
+
+testConsumedContract : Script ()
+testConsumedContract = script do
+  issuer <- allocateParty "Issuer"
+  owner <- allocateParty "Owner"
+  cid <- submit issuer do createCmd (Iou issuer owner 10.0)
+  next <- submit owner do exerciseCmd cid (Transfer issuer)
+  submitMustFail owner do exerciseCmd cid (Transfer issuer)
+  submit issuer do exerciseCmd next Settle
+  submitMustFail issuer do exerciseCmd next Settle

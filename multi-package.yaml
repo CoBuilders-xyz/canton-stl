@@ -1,0 +1,4 @@
+sdk-version: 3.5.8
+packages:
+  - examples/iou/model
+  - examples/iou/model-tests

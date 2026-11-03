@@ -1,0 +1,12 @@
+sdk-version: 3.5.8
+name: network-helpers-example-tests
+source: daml
+version: 1.0.0
+build-options:
+  - --target=2.1
+dependencies:
+  - daml-prim
+  - daml-stdlib
+  - daml-script
+data-dependencies:
+  - ../model/.daml/dist/network-helpers-example-1.0.0.dar

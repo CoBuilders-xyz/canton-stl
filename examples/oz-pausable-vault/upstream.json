@@ -1,0 +1,12 @@
+{
+  "repository": "https://github.com/OpenZeppelin/canton-contracts",
+  "commit": "1899f7a4326c9e1b6b76cb434e490e2e82331d9c",
+  "archiveSha256": "4c72544b9121d4b393893bba0e7525816054fafd57ed82d5f1668dad9f6ea45a",
+  "sdkVersion": "3.5.8",
+  "vaultPath": "examples/pausable/vault",
+  "packages": [
+    "packages/security/api-pausable-v1",
+    "packages/security/pausable-v1",
+    "examples/pausable/vault"
+  ]
+}

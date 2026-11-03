@@ -1,0 +1,59 @@
+name: Sandbox examples
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      LANG: C.UTF-8
+      LC_ALL: C.UTF-8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26.8.1
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - uses: actions/cache@v4
+        with:
+          path: ~/.dpm
+          key: dpm-linux-x64-sdk-3.5.8-canton-3.5.6-v1
+      - name: Install DPM, compiler, and Sandbox runtime
+        run: bash scripts/install-ci-dpm.sh
+      - run: npm ci
+      - run: npm run typecheck
+      - name: Helper regression tests
+        run: npm run test:unit
+      - name: IOU model and integration tests (Mocha and Node)
+        run: npm run test:iou
+      - name: Build the original OpenZeppelin contracts
+        run: npm run setup:oz
+      - name: OpenZeppelin Vault integration tests
+        run: >-
+          node --test
+          --test-reporter=spec --test-reporter-destination=stdout
+          --test-reporter=junit --test-reporter-destination=.reports/oz-vault.xml
+          examples/oz-pausable-vault/vault.test.ts
+      - name: Source provenance and test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sandbox-test-evidence
+          path: .reports/
+          if-no-files-found: ignore
