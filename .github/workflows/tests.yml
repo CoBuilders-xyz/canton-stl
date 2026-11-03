@@ -56,4 +56,5 @@ jobs:
         with:
           name: sandbox-test-evidence
           path: .reports/
-          if-no-files-found: ignore
+          include-hidden-files: true
+          if-no-files-found: error
