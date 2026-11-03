@@ -18,10 +18,13 @@ echo "$HOME/.dpm/bin" >> "$GITHUB_PATH"
 dpm install
 
 # The helpers select this runtime explicitly, independently of the compiler.
-mkdir -p .cache/runtime
-cat > .cache/runtime/daml.yaml <<'YAML'
+# Keep this outside the workspace: otherwise DPM inherits its SDK bundle and
+# rejects the runtime's explicit component selection.
+sandbox_config_dir="$(mktemp -d)"
+cat > "$sandbox_config_dir/daml.yaml" <<'YAML'
 components:
   - canton-open-source:3.5.6
 YAML
-(cd .cache/runtime && dpm install package)
+(cd "$sandbox_config_dir" && dpm install package)
+rm -rf "$sandbox_config_dir"
 dpm version

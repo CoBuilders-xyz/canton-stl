@@ -30,6 +30,6 @@ The initial Vault requires both signatories, so setup uses an explicit joint
 
 CI compiles the same pinned source and runs these tests on a real Sandbox.
 `.reports/oz-provenance.json` records the upstream link, commit, archive and
-source hashes, compiler version, and resulting DAR hash. The workflow artifact
+source hashes, SDK version, and resulting DAR hash. The workflow artifact
 also contains JUnit results. A reader can follow the upstream link and reproduce
 the build; no locally rewritten substitute contract is used.

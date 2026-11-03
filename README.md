@@ -25,9 +25,10 @@ Linux and macOS; CI verifies Linux x64.
 npm ci
 dpm install
 # Install the runtime selected by the helpers:
-mkdir -p .cache/runtime
-printf 'components:\n  - canton-open-source:3.5.6\n' > .cache/runtime/daml.yaml
-(cd .cache/runtime && dpm install package)
+sandbox_config_dir="$(mktemp -d)"
+printf 'components:\n  - canton-open-source:3.5.6\n' > "$sandbox_config_dir/daml.yaml"
+(cd "$sandbox_config_dir" && dpm install package)
+rm -rf "$sandbox_config_dir"
 npm test
 ```
 
