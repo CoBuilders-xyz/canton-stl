@@ -1,5 +1,5 @@
 sdk-version: 3.5.8
-name: network-helpers-example
+name: stl-example
 source: daml
 version: 1.0.0
 build-options:

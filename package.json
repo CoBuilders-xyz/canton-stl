@@ -1,5 +1,5 @@
 {
-  "name": "@cobuilders/canton-test-helpers",
+  "name": "@cobuilders/stl",
   "private": true,
   "type": "module",
   "description": "Private Canton Sandbox test helpers and reproducible integration examples.",

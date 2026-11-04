@@ -1,5 +1,5 @@
 sdk-version: 3.5.8
-name: network-helpers-example-tests
+name: stl-example-tests
 source: daml
 version: 1.0.0
 build-options:
@@ -9,4 +9,4 @@ dependencies:
   - daml-stdlib
   - daml-script
 data-dependencies:
-  - ../model/.daml/dist/network-helpers-example-1.0.0.dar
+  - ../model/.daml/dist/stl-example-1.0.0.dar

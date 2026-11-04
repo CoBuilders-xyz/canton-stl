@@ -38,7 +38,7 @@ export async function startSandbox(options: SandboxOptions = {}): Promise<Sandbo
   for (const dar of dars) await access(dar);
 
   const started = performance.now();
-  const runDir = await mkdtemp(path.join(tmpdir(), "network-helpers-"));
+  const runDir = await mkdtemp(path.join(tmpdir(), "stl-"));
   let child: ChildProcess | undefined;
   let closed = false;
   let stopping: Promise<void> | undefined;

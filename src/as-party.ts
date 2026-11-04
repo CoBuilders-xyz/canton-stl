@@ -56,7 +56,7 @@ export function asParty(
     submission(commands) {
       return {
         commands: {
-          commandId: `network-helpers-${randomUUID()}`,
+          commandId: `stl-${randomUUID()}`,
           userId: context.userId,
           actAs: [...actAs],
           readAs: [...readAs],

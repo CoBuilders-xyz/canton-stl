@@ -1,7 +1,7 @@
 import { asParty, createdContractIds, freshParties, withSandbox } from "../../src/index.ts";
 import { buildExampleDar } from "./build-model.ts";
 
-const templateId = "#network-helpers-example:Main:Iou";
+const templateId = "#stl-example:Main:Iou";
 const dar = await buildExampleDar();
 
 // One Sandbox for the whole example. The DAR is uploaded as the process starts.

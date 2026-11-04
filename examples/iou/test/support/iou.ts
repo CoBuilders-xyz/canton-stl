@@ -1,6 +1,6 @@
 import { asParty, freshParties, singleCreatedContract, type PartyContext, type Sandbox } from "../../../../src/index.ts";
 
-export const templateId = "#network-helpers-example:Main:Iou";
+export const templateId = "#stl-example:Main:Iou";
 export const createIou = (issuer: string, owner: string, amount = "10.0") => ({
   CreateCommand: { templateId, createArguments: { issuer, owner, amount } },
 });

@@ -1,6 +1,6 @@
 # IOU example
 
-The original Network Helpers prototype moved into an example directory. The
+This example demonstrates STL with a small IOU model. The
 model's issuer creates an IOU observed by its owner. The owner can transfer it;
 the issuer can settle it by archiving it. Settlement does not transfer money.
 

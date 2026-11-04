@@ -78,7 +78,7 @@ it("bounds a hung HTTP request", async () => {
 });
 
 it("reports a missing Sandbox executable instead of an unhandled child error", async () => {
-  await assert.rejects(startSandbox({ command: "/nonexistent/network-helpers-dpm", readyTimeoutMs: 1000 }), /ENOENT/);
+  await assert.rejects(startSandbox({ command: "/nonexistent/stl-dpm", readyTimeoutMs: 1000 }), /ENOENT/);
 });
 
 it("reports early launcher exit without waiting for the full readiness timeout", async () => {

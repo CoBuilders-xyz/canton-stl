@@ -1,10 +1,10 @@
-# Canton test helpers
+# STL: Sandbox Testing Library
 
-[![Sandbox examples](https://github.com/CoBuilders-xyz/canton-test-helpers/actions/workflows/tests.yml/badge.svg)](https://github.com/CoBuilders-xyz/canton-test-helpers/actions/workflows/tests.yml)
+[![Sandbox examples](https://github.com/CoBuilders-xyz/stl/actions/workflows/tests.yml/badge.svg)](https://github.com/CoBuilders-xyz/stl/actions/workflows/tests.yml)
 
 Private prototype of reusable Canton Sandbox setup for Node.js integration tests.
 The library lives in `src/`; application contracts, fixtures, and assertions live
-in `examples/`. This is based on the Network Helpers PoC in `canton-research`.
+in `examples/`. This is based on the earlier PoC in `canton-research`.
 The original research repository is unchanged.
 
 ## Examples
@@ -42,7 +42,7 @@ npm run test:oz
 
 ## CI evidence
 
-[GitHub Actions](https://github.com/CoBuilders-xyz/canton-test-helpers/actions/workflows/tests.yml)
+[GitHub Actions](https://github.com/CoBuilders-xyz/stl/actions/workflows/tests.yml)
 runs the helper tests and both examples against real local Sandbox processes.
 Missing toolchains or failed startup fail the job; integration tests are not
 silently skipped. Each run identifies the source revision being tested.

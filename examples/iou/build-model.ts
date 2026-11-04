@@ -4,7 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const packageRoot = fileURLToPath(new URL("./model/", import.meta.url));
-export const exampleDar = path.join(packageRoot, ".daml/dist/network-helpers-example-1.0.0.dar");
+export const exampleDar = path.join(packageRoot, ".daml/dist/stl-example-1.0.0.dar");
 
 export async function buildExampleDar(): Promise<string> {
   // Resolve the version pinned in model/daml.yaml, not the last cached compiler.
