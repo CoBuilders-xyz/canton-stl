@@ -3,7 +3,11 @@ import { ledgerJson } from "./http.ts";
 import type { FreshParty } from "./parties.ts";
 import type { Sandbox } from "./sandbox.ts";
 
-/** Called on every request. Return a new bearer token when the previous one expired. */
+/**
+ * Supplies a bearer token for each submission or contract query. A query reuses
+ * that token for its ledger-end and active-contract requests. No token is issued
+ * or refreshed automatically; the caller supplies a current token or undefined.
+ */
 export type TokenProvider = () => string | undefined | Promise<string | undefined>;
 
 /**
@@ -162,6 +166,6 @@ async function readActiveContracts(party: PartyContext): Promise<CreatedContract
     const active = object(entry?.JsActiveContract);
     if (active) return [parseCreated(active.createdEvent)];
     // Reject truncated/error or unexpected responses instead of claiming an empty ACS.
-    throw new Error("Unsupported active-contract entry in this single-Sandbox PoC");
+    throw new Error("Unsupported active-contract entry: STL expects JsActiveContract entries");
   });
 }

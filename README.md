@@ -1,66 +1,63 @@
 # STL: Sandbox Testing Library
 
-[![Sandbox examples](https://github.com/CoBuilders-xyz/stl/actions/workflows/tests.yml/badge.svg)](https://github.com/CoBuilders-xyz/stl/actions/workflows/tests.yml)
+[![Library tests](https://github.com/CoBuilders-xyz/canton-stl/actions/workflows/tests.yml/badge.svg)](https://github.com/CoBuilders-xyz/canton-stl/actions/workflows/tests.yml)
 
-Private prototype of reusable Canton Sandbox setup for Node.js integration tests.
-The library lives in `src/`; application contracts, fixtures, and assertions live
-in `examples/`. This is based on the earlier PoC in `canton-research`.
-The original research repository is unchanged.
+STL starts local Canton Sandboxes and provides party clients for Node.js
+integration tests. Bring your own compiled DARs, ledger commands, and assertions.
 
-## Examples
+The npm beta is in preparation. Version **0.0.0 is unpublished**; use a local
+tarball until registry installation is available. The npm `private: true` flag
+currently prevents publication.
 
-- [IOU](examples/iou/README.md): the original model, fixtures, Mocha/Chai tests,
-  and Node tests.
-- [OpenZeppelin Pausable Vault](examples/oz-pausable-vault/README.md): Node tests
-  against OpenZeppelin's unmodified Vault, downloaded from the official repository
-  at a pinned commit and compiled locally. No submodules.
+## Use
 
-## Run
-
-Requires Node.js 26.8.1, Java 21, DPM with SDK 3.5.8, and the
-`canton-open-source:3.5.6` component. The current process management supports
-Linux and macOS; CI verifies Linux x64.
+Requires Node.js >=24.10 with ESM, Java 21, DPM, and the installed
+`canton-open-source:3.5.6` component. SDK bundle 3.5.8 is the tested toolchain.
+See [Contributing](https://github.com/CoBuilders-xyz/canton-stl/blob/main/CONTRIBUTING.md) for toolchain setup and development commands.
 
 ```sh
+# In this checkout; choose an existing output directory:
 npm ci
-dpm install
-# Install the runtime selected by the helpers:
-sandbox_config_dir="$(mktemp -d)"
-printf 'components:\n  - canton-open-source:3.5.6\n' > "$sandbox_config_dir/daml.yaml"
-(cd "$sandbox_config_dir" && dpm install package)
-rm -rf "$sandbox_config_dir"
-npm test
+npm pack --pack-destination /path/to/output
+
+# In your ESM project (package.json has "type": "module"):
+npm install /path/to/output/cobuilders-canton-stl-0.0.0.tgz
 ```
 
-Individual commands:
+Save this as `sandbox.test.js`, set the DAR path, and run `node --test`:
 
-```sh
-npm run test:unit
-npm run test:iou
-npm run test:oz
+```js
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import { asParty, freshParties, withSandbox } from "@cobuilders/canton-stl";
+
+test("a fresh party has an empty contract view", async () => {
+  await withSandbox(async (sandbox) => {
+    const { Alice } = await freshParties(sandbox, ["Alice"]);
+    const alice = asParty(sandbox, Alice);
+    assert.deepEqual(await alice.contracts(), []);
+    // Submit your application's commands with alice.submit(commands).
+  }, { dars: ["./my-app.dar"] });
+});
 ```
 
-## CI evidence
+## Helpers
 
-[GitHub Actions](https://github.com/CoBuilders-xyz/stl/actions/workflows/tests.yml)
-runs the helper tests and both examples against real local Sandbox processes.
-Missing toolchains or failed startup fail the job; integration tests are not
-silently skipped. Each run identifies the source revision being tested.
-The `sandbox-test-evidence` artifact includes the OZ source provenance and Vault
-JUnit results. Repository access is required to see private workflow runs.
+- `startSandbox` / `withSandbox`: start and release an owned Sandbox.
+- `freshParties`: allocate new parties and ledger users for each fixture.
+- `asParty`: submit commands and query contracts with a fixed party context.
+- `createdContracts`, `createdContractIds`, `singleCreatedContract`: inspect creates.
+- `LedgerApiError`: preserve HTTP status and ledger error details.
 
-## Prototype boundaries
+## Beta scope
 
-Authentication is disabled in the examples. Contract-controller rejection is
-tested, but token enforcement and ledger-user rights are not established here.
-There are no static-time helpers, snapshots, or LocalNet orchestration. Contract
-queries support the small-fixture response shape used by these examples.
+Local open Sandboxes only; authenticated provisioning and token/user-rights
+enforcement are not validated. Queries support fixture-sized contract responses.
+There are no static-time helpers, snapshots, or LocalNet orchestration. Process
+management targets POSIX Linux/macOS; macOS validation remains pending.
 
-`asParty()` creates a fixed client for one existing user and party. An optional
-`actAs` array supports joint submissions, such as creating a Vault signed by both
-admin and owner; it does not grant that user any additional rights. Authenticated
-multi-party provisioning remains future work.
+The [OpenZeppelin Vault example](https://github.com/CoBuilders-xyz/canton-stl/blob/main/examples/oz-pausable-vault/README.md) demonstrates
+contract creation and choices. It is optional and runs separately from library CI.
 
-`package.json` is private and the project is not published to npm. OpenZeppelin
-dependencies retain their upstream licensing; this repository does not relicense
-them. Own code is not offered under an open-source license at this stage.
+STL is licensed under [Apache-2.0](LICENSE). Copyright 2026 CoBuilders contributors.
+Fetched OpenZeppelin sources retain their upstream license.

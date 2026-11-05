@@ -23,13 +23,13 @@ export type SandboxOptions = {
   command?: string;
   readyTimeoutMs?: number;
   dars?: readonly string[];
-  /** Must already be installed through DPM. This PoC is verified on 3.5.6. */
+  /** Must already be installed through DPM. STL is tested with Canton 3.5.6. */
   cantonVersion?: string;
 };
 
 /** Use from a framework's before/after hooks. Await stop() even when assertions fail. */
 export async function startSandbox(options: SandboxOptions = {}): Promise<SandboxSession> {
-  if (process.platform === "win32") throw new Error("This PoC supports POSIX process groups (macOS/Linux).");
+  if (process.platform === "win32") throw new Error("STL requires POSIX process groups (Linux/macOS).");
   const timeout = options.readyTimeoutMs ?? 120_000;
   if (!Number.isFinite(timeout) || timeout <= 0) throw new Error("readyTimeoutMs must be positive");
   const version = options.cantonVersion ?? "3.5.6";

@@ -15,7 +15,11 @@ if [ ! -x "$HOME/.dpm/bin/dpm" ]; then
 fi
 export PATH="$HOME/.dpm/bin:$PATH"
 echo "$HOME/.dpm/bin" >> "$GITHUB_PATH"
-dpm install
+# The root no longer contains an application Daml workspace.
+sdk_config_dir="$(mktemp -d)"
+printf 'sdk-version: %s\n' "$sdk_version" > "$sdk_config_dir/daml.yaml"
+(cd "$sdk_config_dir" && dpm install)
+rm -rf "$sdk_config_dir"
 
 # The helpers select this runtime explicitly, independently of the compiler.
 # Keep this outside the workspace: otherwise DPM inherits its SDK bundle and

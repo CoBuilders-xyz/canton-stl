@@ -1,5 +1,5 @@
 sdk-version: 3.5.8
-name: stl-example
+name: stl-test-fixture
 source: daml
 version: 1.0.0
 build-options:

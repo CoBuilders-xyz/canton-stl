@@ -1,30 +1,40 @@
-name: Sandbox examples
+name: Library tests
 
-on:
+"on":
   push:
     branches: [main]
   pull_request:
-  workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: tests-${{ github.ref }}
+  group: stl-library-${{ github.ref }}
   cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
 
 jobs:
   test:
+    name: Node ${{ matrix.node }} / Linux
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ["24.10.0", "26.8.1"]
     env:
       LANG: C.UTF-8
       LC_ALL: C.UTF-8
     steps:
       - uses: actions/checkout@v4
+      - name: Prepare library reports
+        run: mkdir -p .reports/library
       - uses: actions/setup-node@v4
         with:
-          node-version: 26.8.1
+          node-version: ${{ matrix.node }}
           cache: npm
       - uses: actions/setup-java@v4
         with:
@@ -35,26 +45,27 @@ jobs:
           path: ~/.dpm
           key: dpm-linux-x64-sdk-3.5.8-canton-3.5.6-v1
       - name: Install DPM, compiler, and Sandbox runtime
-        run: bash scripts/install-ci-dpm.sh
+        run: |
+          set -o pipefail
+          bash scripts/install-ci-dpm.sh 2>&1 | tee .reports/library/toolchain.log
       - run: npm ci
-      - run: npm run typecheck
-      - name: Helper regression tests
-        run: npm run test:unit
-      - name: IOU model and integration tests (Mocha and Node)
-        run: npm run test:iou
-      - name: Build the original OpenZeppelin contracts
-        run: npm run setup:oz
-      - name: OpenZeppelin Vault integration tests
-        run: >-
-          node --test
-          --test-reporter=spec --test-reporter-destination=stdout
-          --test-reporter=junit --test-reporter-destination=.reports/oz-vault.xml
-          examples/oz-pausable-vault/vault.test.ts
-      - name: Source provenance and test evidence
+      - name: Library typecheck and regression tests
+        run: |
+          set -o pipefail
+          npm test 2>&1 | tee .reports/library/unit.log
+      - name: Installed JavaScript and TypeScript package consumers
+        run: |
+          set -o pipefail
+          npm run test:package 2>&1 | tee .reports/library/package.log
+      - name: Installed package on a real open Sandbox
+        run: |
+          set -o pipefail
+          npm run test:integration 2>&1 | tee .reports/library/integration.log
+      - name: Library test logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: sandbox-test-evidence
-          path: .reports/
+          name: library-tests-node-${{ matrix.node }}
+          path: .reports/library/
           include-hidden-files: true
-          if-no-files-found: error
+          if-no-files-found: warn

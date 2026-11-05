@@ -4,7 +4,7 @@ import {
   asParty, createdContracts, freshParties, LedgerApiError, startSandbox,
   type PartyContext, type SandboxSession,
 } from "../../src/index.ts";
-import { vaultDar } from "../../scripts/prepare-oz.ts";
+import { vaultDar } from "./prepare.ts";
 
 const moduleId = "#pausable-vault-example:OpenZeppelin.Examples.Pausable.Vault";
 const templateId = `${moduleId}:Vault`;
