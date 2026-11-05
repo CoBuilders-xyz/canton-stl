@@ -26,10 +26,10 @@ export async function withInstalledPackage(fixturesDirectory, use) {
     assert.equal(packed.length, 1);
     const manifest = packed[0];
     const files = manifest.files.map(({ path }) => path);
-    assert.ok(files.includes("package.json") && files.includes("README.md"));
+    assert.ok(["package.json", "README.md", "LICENSE"].every((file) => files.includes(file)));
     assert.ok(files.some((file) => file.startsWith("dist/") && file.endsWith(".js")));
     assert.ok(files.some((file) => file.startsWith("dist/") && file.endsWith(".d.ts")));
-    assert.ok(files.every((file) => ["package.json", "README.md"].includes(file)
+    assert.ok(files.every((file) => ["package.json", "README.md", "LICENSE"].includes(file)
       || /^dist\/[^/]+\.(js|d\.ts)$/.test(file)), "Tarball must exclude development files");
     console.log("Tarball contents verified.");
 

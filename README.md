@@ -5,9 +5,9 @@
 STL starts local Canton Sandboxes and provides party clients for Node.js
 integration tests. Bring your own compiled DARs, ledger commands, and assertions.
 
-The npm beta is in preparation. This package is currently **private, unpublished,
-version 0.0.0, and UNLICENSED**. Use a local tarball; registry installation is not
-available yet.
+The npm beta is in preparation. Version **0.0.0 is unpublished**; use a local
+tarball until registry installation is available. The npm `private: true` flag
+currently prevents publication.
 
 ## Use
 
@@ -58,3 +58,6 @@ management targets POSIX Linux/macOS; macOS validation remains pending.
 
 The [OpenZeppelin Vault example](https://github.com/CoBuilders-xyz/canton-stl/blob/main/examples/oz-pausable-vault/README.md) demonstrates
 contract creation and choices. It is optional and runs separately from library CI.
+
+STL is licensed under [Apache-2.0](LICENSE). Copyright 2026 CoBuilders contributors.
+Fetched OpenZeppelin sources retain their upstream license.

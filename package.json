@@ -20,7 +20,7 @@
     "typescript": "7.0.2"
   },
   "version": "0.0.0",
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
