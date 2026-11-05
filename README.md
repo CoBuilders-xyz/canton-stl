@@ -5,9 +5,11 @@
 STL starts local Canton Sandboxes and provides party clients for Node.js
 integration tests. Bring your own compiled DARs, ledger commands, and assertions.
 
-The npm beta is in preparation. Version **0.0.0 is unpublished**; use a local
-tarball until registry installation is available. The npm `private: true` flag
-currently prevents publication.
+STL is in beta. Install with:
+
+```sh
+npm install @cobuilders/canton-stl@beta
+```
 
 ## Use
 
@@ -21,7 +23,7 @@ npm ci
 npm pack --pack-destination /path/to/output
 
 # In your ESM project (package.json has "type": "module"):
-npm install /path/to/output/cobuilders-canton-stl-0.0.0.tgz
+npm install /path/to/output/cobuilders-canton-stl-0.1.0-beta.1.tgz
 ```
 
 Save this as `sandbox.test.js`, set the DAR path, and run `node --test`:
