@@ -1,0 +1,67 @@
+name: Optional examples
+
+"on":
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stl-examples-${{ github.ref }}
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  oz-pausable-vault:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      LANG: C.UTF-8
+      LC_ALL: C.UTF-8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare example reports
+        working-directory: examples/oz-pausable-vault
+        run: mkdir -p .reports
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26.8.1
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - uses: actions/cache@v4
+        with:
+          path: ~/.dpm
+          key: dpm-linux-x64-sdk-3.5.8-canton-3.5.6-v1
+      - name: Install DPM, compiler, and Sandbox runtime
+        run: |
+          set -o pipefail
+          bash scripts/install-ci-dpm.sh 2>&1 | tee examples/oz-pausable-vault/.reports/toolchain.log
+      - run: npm ci
+      - name: Build the pinned OpenZeppelin contracts
+        working-directory: examples/oz-pausable-vault
+        run: |
+          set -o pipefail
+          npm run typecheck 2>&1 | tee .reports/typecheck.log
+          npm run setup 2>&1 | tee .reports/setup.log
+      - name: OpenZeppelin Vault integration tests
+        working-directory: examples/oz-pausable-vault
+        run: |
+          set -o pipefail
+          node --test \
+            --test-reporter=spec --test-reporter-destination=stdout \
+            --test-reporter=junit --test-reporter-destination=.reports/oz-vault.xml \
+            vault.test.ts 2>&1 | tee .reports/oz-vault.log
+      - name: OpenZeppelin source provenance and test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: optional-oz-evidence
+          path: examples/oz-pausable-vault/.reports/
+          include-hidden-files: true
+          if-no-files-found: warn

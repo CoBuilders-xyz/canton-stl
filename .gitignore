@@ -1,14 +1,14 @@
 # Dependencies
 node_modules/
 
-# Daml build output (model/.daml, model-tests/.daml, …)
+# Daml build output
 .daml/
 
 # Canton / local runtime
 log/
 *.log
 
-# Benchmark output
+# Test evidence
 .reports/
 
 # Secrets

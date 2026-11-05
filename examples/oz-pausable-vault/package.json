@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "setup": "node prepare.ts",
+    "test": "npm run typecheck && npm run setup && node --test vault.test.ts"
+  }
+}

@@ -1,0 +1,11 @@
+module Fixture where
+
+-- Minimal data for library integration tests; no application workflow.
+template Marker
+  with
+    owner : Party
+    reader : Party
+    label : Text
+  where
+    signatory owner
+    observer reader

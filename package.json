@@ -2,33 +2,35 @@
   "name": "@cobuilders/stl",
   "private": true,
   "type": "module",
-  "description": "Private Canton Sandbox test helpers and reproducible integration examples.",
+  "description": "Reusable Canton Sandbox test helpers for Node.js integration tests.",
   "engines": {
     "node": ">=24.10.0"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "test": "npm run typecheck && npm run test:unit && npm run test:iou && npm run test:oz",
-    "test:unit": "node --test test/unit/*.test.ts",
-    "build:iou": "node examples/iou/build-model.ts",
-    "test:iou": "npm run build:iou && npm run test:iou:daml && npm run test:iou:mocha && npm run test:iou:node",
-    "test:iou:daml": "cd examples/iou/model-tests && dpm test",
-    "test:iou:mocha": "mocha --timeout 120000 examples/iou/test/mocha/*.test.ts",
-    "test:iou:node": "node --test examples/iou/test/node/*.test.ts",
-    "setup:oz": "node scripts/prepare-oz.ts",
-    "test:oz": "npm run setup:oz && node --test examples/oz-pausable-vault/vault.test.ts",
-    "example:iou": "node examples/iou/example.ts",
-    "benchmark:iou": "npm run build:iou && node examples/iou/benchmark.ts"
+    "build": "rm -rf dist && tsc --project tsconfig.build.json",
+    "prepack": "npm run build",
+    "test:package": "node test/check-package.js",
+    "test:integration": "node test/check-integration.js",
+    "test": "npm run typecheck && npm run test:unit",
+    "test:unit": "node --test test/unit/*.test.ts"
   },
   "devDependencies": {
-    "@types/chai": "5.2.3",
-    "@types/mocha": "10.0.10",
     "@types/node": "26.6.4",
-    "chai": "6.3.0",
-    "mocha": "12.0.3",
     "typescript": "7.0.2"
   },
   "version": "0.0.0",
   "license": "UNLICENSED",
-  "exports": "./src/index.ts"
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist/*.js",
+    "dist/*.d.ts",
+    "README.md"
+  ]
 }
