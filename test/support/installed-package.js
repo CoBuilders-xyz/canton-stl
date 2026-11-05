@@ -42,7 +42,7 @@ export async function withInstalledPackage(fixturesDirectory, use) {
       path.join(temporary, manifest.filename),
     ], consumer);
 
-    const installed = path.join(consumer, "node_modules/@cobuilders/stl");
+    const installed = path.join(consumer, "node_modules/@cobuilders/canton-stl");
     assert.equal((await lstat(installed)).isSymbolicLink(), false);
     await use(consumer);
   } finally {

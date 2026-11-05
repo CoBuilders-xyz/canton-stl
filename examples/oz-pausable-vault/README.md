@@ -69,7 +69,7 @@ requires both signatories, so setup uses an explicit joint `actAs` client. The
 Sandbox runs without authentication; the suite does not establish token
 validation, user-rights enforcement, or authenticated multi-party provisioning.
 
-The [Optional examples workflow](https://github.com/CoBuilders-xyz/stl/actions/workflows/examples.yml)
+The [Optional examples workflow](https://github.com/CoBuilders-xyz/canton-stl/actions/workflows/examples.yml)
 is manual only: Actions → Optional examples → Run workflow (`workflow_dispatch`).
 It typechecks this example, builds the pinned contracts, and runs the Vault tests
 on a real open Sandbox. Automatic library CI does not run this example.

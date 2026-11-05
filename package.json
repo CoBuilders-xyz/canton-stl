@@ -1,5 +1,5 @@
 {
-  "name": "@cobuilders/stl",
+  "name": "@cobuilders/canton-stl",
   "private": true,
   "type": "module",
   "description": "Reusable Canton Sandbox test helpers for Node.js integration tests.",

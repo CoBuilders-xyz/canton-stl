@@ -1,11 +1,11 @@
 import assert from "node:assert/strict";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import * as stl from "@cobuilders/stl";
+import * as stl from "@cobuilders/canton-stl";
 
 assert.equal(
-  fileURLToPath(import.meta.resolve("@cobuilders/stl")),
-  path.resolve("node_modules/@cobuilders/stl/dist/index.js"),
+  fileURLToPath(import.meta.resolve("@cobuilders/canton-stl")),
+  path.resolve("node_modules/@cobuilders/canton-stl/dist/index.js"),
 );
 assert.deepEqual(Object.keys(stl).sort(), [
   "LedgerApiError", "asParty", "createdContractIds", "createdContracts",

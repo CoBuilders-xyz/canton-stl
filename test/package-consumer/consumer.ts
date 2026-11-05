@@ -3,7 +3,7 @@ import {
   singleCreatedContract, startSandbox, withSandbox,
   type CreatedContract, type FreshParty, type PartyContext, type Sandbox,
   type SandboxOptions, type SandboxSession, type TokenProvider,
-} from "@cobuilders/stl";
+} from "@cobuilders/canton-stl";
 
 const sandbox: Sandbox = {
   jsonApiUrl: "http://127.0.0.1:1", ledgerApiPort: 1, adminApiPort: 2,

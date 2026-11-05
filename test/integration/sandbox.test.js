@@ -8,10 +8,10 @@ import { fileURLToPath } from "node:url";
 import {
   asParty, createdContractIds, createdContracts, freshParties,
   singleCreatedContract, startSandbox, withSandbox,
-} from "@cobuilders/stl";
+} from "@cobuilders/canton-stl";
 
-assert.equal(fileURLToPath(import.meta.resolve("@cobuilders/stl")),
-  path.resolve("node_modules/@cobuilders/stl/dist/index.js"));
+assert.equal(fileURLToPath(import.meta.resolve("@cobuilders/canton-stl")),
+  path.resolve("node_modules/@cobuilders/canton-stl/dist/index.js"));
 assert.ok(process.env.STL_TEST_DAR, "Run through npm run test:integration to build the fixture DAR");
 const options = { dars: [process.env.STL_TEST_DAR], cantonVersion: "3.5.6" };
 

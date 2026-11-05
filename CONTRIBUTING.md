@@ -46,8 +46,8 @@ submissions, and party filters. Missing tools or failed assertions fail the run.
 
 ## CI and examples
 
-[Library tests](https://github.com/CoBuilders-xyz/stl/actions/workflows/tests.yml)
+[Library tests](https://github.com/CoBuilders-xyz/canton-stl/actions/workflows/tests.yml)
 runs all three test commands on Linux with Node 24.10.0 and 26.8.1.
-[Optional examples](https://github.com/CoBuilders-xyz/stl/actions/workflows/examples.yml)
+[Optional examples](https://github.com/CoBuilders-xyz/canton-stl/actions/workflows/examples.yml)
 is manual only. See the [OZ example](examples/oz-pausable-vault/README.md) for its
 setup and commands. Library checks do not download or build OZ.
