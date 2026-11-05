@@ -1,6 +1,5 @@
 {
   "name": "@cobuilders/canton-stl",
-  "private": true,
   "type": "module",
   "description": "Reusable Canton Sandbox test helpers for Node.js integration tests.",
   "engines": {
@@ -19,7 +18,7 @@
     "@types/node": "26.6.4",
     "typescript": "7.0.2"
   },
-  "version": "0.0.0",
+  "version": "0.1.0-beta.1",
   "license": "Apache-2.0",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -32,5 +31,14 @@
     "dist/*.js",
     "dist/*.d.ts",
     "README.md"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CoBuilders-xyz/canton-stl.git"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "beta",
+    "registry": "https://registry.npmjs.org/"
+  }
 }
