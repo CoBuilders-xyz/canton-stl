@@ -16,25 +16,25 @@ defaults:
 
 jobs:
   oz-pausable-vault:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     env:
       LANG: C.UTF-8
       LC_ALL: C.UTF-8
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7.0.1
       - name: Prepare example reports
         working-directory: examples/oz-pausable-vault
         run: mkdir -p .reports
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7.1.0
         with:
           node-version: 26.8.1
           cache: npm
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v6.2.0
         with:
           distribution: temurin
           java-version: "21"
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6.1.0
         with:
           path: ~/.dpm
           key: dpm-linux-x64-sdk-3.5.8-canton-3.5.6-v1
@@ -59,7 +59,7 @@ jobs:
             vault.test.ts 2>&1 | tee .reports/oz-vault.log
       - name: OpenZeppelin source provenance and test evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7.0.2
         with:
           name: optional-oz-evidence
           path: examples/oz-pausable-vault/.reports/
